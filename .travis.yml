@@ -3,8 +3,8 @@ language: go
 go:
   - 1.10.x
 
-before_install:
-  - dep ensure
+#before_install:
+#  - dep ensure
 
 script:
   - ./push-public.sh
