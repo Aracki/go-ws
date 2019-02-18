@@ -1,11 +1,12 @@
 language: go
 
 go:
-  - 1.10.x
+  - 1.11.x
 
 #before_install:
 #  - dep ensure
 
 script:
+  - dep ensure
   - ./push-public.sh
 
