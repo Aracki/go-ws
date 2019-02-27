@@ -9,5 +9,6 @@ before_install:
 
 script:
   - chmod +x push-public.sh
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - ./push-public.sh
 
