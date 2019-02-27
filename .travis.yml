@@ -8,7 +8,8 @@ before_install:
   - dep ensure
 
 script:
-  - chmod +x push-public.sh
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - ./push-public.sh
-
+  - GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -a -o go-ws cmd/go-ws/main.go
+  - docker build --no-cache -t aracki/go-web-server:$TRAVIS_COMMIT .
+  - rm go-ws
+  - docker push aracki/go-web-server
