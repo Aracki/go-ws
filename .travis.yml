@@ -3,10 +3,10 @@ language: go
 go:
   - 1.11.x
 
-#before_install:
-#  - dep ensure
+before_install:
+  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+  - dep ensure
 
 script:
-  - dep ensure
   - ./push-public.sh
 
