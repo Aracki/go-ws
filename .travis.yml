@@ -1,11 +1,14 @@
 language: go
 
 go:
-  - 1.10.x
+  - 1.11.x
 
-#before_install:
-#  - dep ensure
+before_install:
+  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+  - dep ensure
 
 script:
+  - chmod +x push-public.sh
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - ./push-public.sh
 

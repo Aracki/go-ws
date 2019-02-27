@@ -1,4 +1,4 @@
-package mongo
+package db
 
 import (
 	"context"
@@ -9,10 +9,12 @@ import (
 	"github.com/mongodb/mongo-go-driver/mongo"
 )
 
+var dbUrl = "mongodb://localhost:27017"
+
 func InsertNumber(num float32) error {
 
 	ctx, _ := context.WithTimeout(context.Background(), 3*time.Second)
-	client, err := mongo.Connect(ctx, "mongodb://localhost:27017")
+	client, err := mongo.Connect(ctx, dbUrl)
 	if err != nil {
 		return err
 	}
@@ -32,7 +34,7 @@ func InsertNumber(num float32) error {
 func GetAllValues() (values []interface{}, err error) {
 
 	ctx, _ := context.WithTimeout(context.Background(), 3*time.Second)
-	client, err := mongo.Connect(ctx, "mongodb://localhost:27017")
+	client, err := mongo.Connect(ctx, dbUrl)
 	if err != nil {
 		return nil, err
 	}

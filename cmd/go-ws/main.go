@@ -3,7 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"github.com/aracki/go-ws/mongo"
+	"github.com/aracki/go-ws/db"
 	"io"
 	"io/ioutil"
 	"log"
@@ -161,7 +161,7 @@ func memleak(w http.ResponseWriter, r *http.Request) {
 
 func insertNum(w http.ResponseWriter, r *http.Request) {
 
-	err := mongo.InsertNumber(1.2)
+	err := db.InsertNumber(1.2)
 	if err != nil {
 		respWithHostname(w, err.Error())
 	}
@@ -171,10 +171,14 @@ func insertNum(w http.ResponseWriter, r *http.Request) {
 
 func getNums(w http.ResponseWriter, r *http.Request) {
 
-	vals, err := mongo.GetAllValues()
+	vals, err := db.GetAllValues()
 	if err != nil {
 		respWithHostname(w, err.Error())
 	}
 
-	respWithHostname(w, fmt.Sprintf("%s", vals))
+	var flts []string
+	for _, v := range vals {
+		flts = append(flts, strconv.FormatFloat(v.(float64), 'f', 6, 64))
+	}
+	respWithHostname(w, fmt.Sprintf("%s", flts))
 }
