@@ -1,5 +1,7 @@
 # go-ws
 
+[![Build Status](https://travis-ci.org/Aracki/go-ws.svg?branch=master)](https://travis-ci.org/Aracki/go-ws)
+
 # gobernetes
 An ultra simple Go App ready to be deployed via Kubernetes.
 
