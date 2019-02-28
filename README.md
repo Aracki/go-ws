@@ -1,6 +1,7 @@
 # go-ws
 
 [![Build Status](https://travis-ci.org/Aracki/go-ws.svg?branch=master)](https://travis-ci.org/Aracki/go-ws)
+[![](https://images.microbadger.com/badges/image/aracki/go-web-server.svg)](https://microbadger.com/images/aracki/go-web-server "Get your own image badge on microbadger.com")
 
 # gobernetes
 An ultra simple Go App ready to be deployed via Kubernetes.
