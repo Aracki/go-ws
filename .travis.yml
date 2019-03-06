@@ -10,6 +10,6 @@ before_install:
 script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -a -o go-ws cmd/go-ws/main.go
-  - docker build --no-cache -t aracki/go-web-server:$TRAVIS_COMMIT .
+  - docker build --no-cache -t aracki/go-web-server:$TRAVIS_COMMIT -t aracki/go-web-server:latest .
   - rm go-ws
   - docker push aracki/go-web-server
