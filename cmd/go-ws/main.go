@@ -164,6 +164,7 @@ func insertNum(w http.ResponseWriter, r *http.Request) {
 	err := db.InsertNumber(1.2)
 	if err != nil {
 		respWithHostname(w, err.Error())
+		return
 	}
 
 	respWithHostname(w, "inserted")
@@ -174,6 +175,7 @@ func getNums(w http.ResponseWriter, r *http.Request) {
 	vals, err := db.GetAllValues()
 	if err != nil {
 		respWithHostname(w, err.Error())
+		return
 	}
 
 	var flts []string
