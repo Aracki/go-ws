@@ -1,5 +1,6 @@
 # go-ws
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3e4a3a4a337c4da5b7b2ccd5b144b47f)](https://app.codacy.com/app/Aracki/go-ws?utm_source=github.com&utm_medium=referral&utm_content=Aracki/go-ws&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/Aracki/go-ws.svg?branch=master)](https://travis-ci.org/Aracki/go-ws)
 [![](https://images.microbadger.com/badges/image/aracki/go-web-server.svg)](https://microbadger.com/images/aracki/go-web-server "Get your own image badge on microbadger.com")
 
