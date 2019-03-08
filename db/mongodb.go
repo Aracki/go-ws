@@ -16,16 +16,15 @@ var client *mongo.Client
 
 func init() {
 
-	dbUrl := "mongodb://" + os.Getenv("host") + ":" + os.Getenv("port")
+	dbURL := "mongodb://" + os.Getenv("host") + ":" + os.Getenv("port")
 
 	ctx, _ := context.WithTimeout(context.Background(), 3*time.Second)
 	var err error
-	client, err = mongo.Connect(ctx, dbUrl)
+	client, err = mongo.Connect(ctx, dbURL)
 	if err != nil {
 		fmt.Println(err.Error())
-	} else {
-		log.Printf("connected to %s\n", dbUrl)
 	}
+	log.Printf("connected to %s\n", dbURL)
 }
 
 func InsertNumber(num float32) error {
@@ -65,9 +64,8 @@ func GetAllValues() (values []interface{}, err error) {
 		err := cur.Decode(&res)
 		if err != nil {
 			return nil, err
-		} else {
-			values = append(values, bson.M(res)["value"])
 		}
+		values = append(values, bson.M(res)["value"])
 	}
 
 	return values, nil
