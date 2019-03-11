@@ -23,14 +23,16 @@ func init() {
 	client, err = mongo.Connect(ctx, dbURL)
 	if err != nil {
 		fmt.Println(err.Error())
+		client = nil
+	} else {
+		log.Printf("connected to %s\n", dbURL)
 	}
-	log.Printf("connected to %s\n", dbURL)
 }
 
 func InsertNumber(num float32) error {
 
 	if client == nil {
-		return errors.New("cannot create mongo client")
+		return errors.New("mongo client doesn't exist")
 	}
 
 	ctx, _ := context.WithTimeout(context.Background(), 3*time.Second)
@@ -48,7 +50,7 @@ func InsertNumber(num float32) error {
 func GetAllValues() (values []interface{}, err error) {
 
 	if client == nil {
-		return nil, errors.New("cannot create mongo client")
+		return nil, errors.New("mongo client doesn't exist")
 	}
 
 	ctx, _ := context.WithTimeout(context.Background(), 3*time.Second)
