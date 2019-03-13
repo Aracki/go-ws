@@ -32,6 +32,7 @@ func respWithHostname(w http.ResponseWriter, msg string) {
 
 func main() {
 
+	log.Println("handlers started...")
 	http.HandleFunc("/", hello)
 	http.HandleFunc("/write", writeFile)
 	http.HandleFunc("/remove", rmFile)

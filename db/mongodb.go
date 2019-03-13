@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -10,52 +9,67 @@ import (
 
 	"github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/mongo"
+	"github.com/mongodb/mongo-go-driver/mongo/readpref"
+	"github.com/pkg/errors"
 )
 
-var client *mongo.Client
+const (
+	dbNAME = "test"
+)
 
-func init() {
-
-	dbURL := "mongodb://" + os.Getenv("host") + ":" + os.Getenv("port")
-
-	ctx, _ := context.WithTimeout(context.Background(), 3*time.Second)
-	var err error
-	client, err = mongo.Connect(ctx, dbURL)
+func configDB(ctx context.Context) (*mongo.Client, error) {
+	uri := fmt.Sprintf(`mongodb://%s`,
+		os.Getenv("mongo_host"),
+	)
+	client, err := mongo.NewClient(uri)
 	if err != nil {
-		fmt.Println(err.Error())
-		client = nil
-	} else {
-		log.Printf("connected to %s\n", dbURL)
+		return nil, fmt.Errorf("couldn't connect to mongo: %v", err)
 	}
+	err = client.Connect(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("mongo client couldn't connect with background context: %v", err)
+	}
+
+	ctx, _ = context.WithTimeout(context.Background(), 2*time.Second)
+	err = client.Ping(ctx, readpref.Primary())
+	if err != nil {
+		return nil, errors.Wrap(err, "ping mongodb failed")
+	}
+	log.Println("mongodb client connected:", uri)
+
+	return client, nil
 }
 
 func InsertNumber(num float32) error {
 
-	if client == nil {
-		return errors.New("mongo client doesn't exist")
-	}
-
-	ctx, _ := context.WithTimeout(context.Background(), 3*time.Second)
-	collection := client.Database("testing").Collection("numbers")
-	res, err := collection.InsertOne(ctx, bson.M{"name": "pi", "value": num})
+	ctx := context.Background()
+	dbClient, err := configDB(ctx)
 	if err != nil {
 		return err
 	}
-	id := res.InsertedID
+	defer dbClient.Disconnect(ctx)
 
-	fmt.Println("inserted: ", id)
+	ctx, _ = context.WithTimeout(context.Background(), 3*time.Second)
+	res, err := dbClient.Database(dbNAME).Collection("numbers").InsertOne(ctx, bson.M{"name": "pi", "value": num})
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("inserted: ", res.InsertedID)
 	return nil
 }
 
 func GetAllValues() (values []interface{}, err error) {
 
-	if client == nil {
-		return nil, errors.New("mongo client doesn't exist")
+	ctx := context.Background()
+	dbClient, err := configDB(ctx)
+	if err != nil {
+		return nil, err
 	}
+	defer dbClient.Disconnect(ctx)
 
-	ctx, _ := context.WithTimeout(context.Background(), 3*time.Second)
-	collection := client.Database("testing").Collection("numbers")
-	cur, err := collection.Find(ctx, bson.D{})
+	ctx, _ = context.WithTimeout(context.Background(), 3*time.Second)
+	cur, err := dbClient.Database(dbNAME).Collection("numbers").Find(ctx, bson.D{})
 	if err != nil {
 		return nil, err
 	}
