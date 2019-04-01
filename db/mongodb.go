@@ -42,6 +42,7 @@ func configDB(ctx context.Context) (*mongo.Client, error) {
 	return client, nil
 }
 
+// InsertNumber will insert the given float into 'numbers' mongo collection
 func InsertNumber(num float32) error {
 
 	ctx := context.Background()
@@ -62,6 +63,7 @@ func InsertNumber(num float32) error {
 	return nil
 }
 
+// GetAllValues will return all the float values from 'numbers' mongo collection
 func GetAllValues() (values []interface{}, err error) {
 
 	ctx := context.Background()
