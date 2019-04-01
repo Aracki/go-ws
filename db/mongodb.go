@@ -30,7 +30,9 @@ func configDB(ctx context.Context) (*mongo.Client, error) {
 		return nil, fmt.Errorf("mongo client couldn't connect with background context: %v", err)
 	}
 
-	ctx, _ = context.WithTimeout(context.Background(), 2*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+
 	err = client.Ping(ctx, readpref.Primary())
 	if err != nil {
 		return nil, errors.Wrap(err, "ping mongodb failed")
@@ -49,7 +51,9 @@ func InsertNumber(num float32) error {
 	}
 	defer dbClient.Disconnect(ctx)
 
-	ctx, _ = context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
 	_, err = dbClient.Database(dbNAME).Collection("numbers").InsertOne(ctx, bson.M{"name": "pi", "value": num})
 	if err != nil {
 		return err
@@ -67,7 +71,9 @@ func GetAllValues() (values []interface{}, err error) {
 	}
 	defer dbClient.Disconnect(ctx)
 
-	ctx, _ = context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
 	cur, err := dbClient.Database(dbNAME).Collection("numbers").Find(ctx, bson.D{})
 	if err != nil {
 		return nil, err
