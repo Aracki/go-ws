@@ -160,28 +160,30 @@ func memleak(w http.ResponseWriter, r *http.Request) {
 	respWithHostname(w, fmt.Sprintf("memleak running: %dMB / %dms\n", howMany, interval))
 }
 
-func insertNum(w http.ResponseWriter, r *http.Request) {
+func insertNum(w http.ResponseWriter, _ *http.Request) {
 
-	err := db.InsertNumber(1.2)
+	num := float32(1.2)
+	err := db.InsertNumber(num)
 	if err != nil {
 		respWithHostname(w, err.Error())
 		return
 	}
 
-	respWithHostname(w, "inserted")
+	respWithHostname(w, fmt.Sprintf("inserted %g into mongo db", num))
 }
 
 func getNums(w http.ResponseWriter, r *http.Request) {
 
-	vals, err := db.GetAllValues()
+	values, err := db.GetAllValues()
 	if err != nil {
 		respWithHostname(w, err.Error())
 		return
 	}
 
-	var flts []string
-	for _, v := range vals {
-		flts = append(flts, strconv.FormatFloat(v.(float64), 'f', 6, 64))
+	var floats []string
+	for _, v := range values {
+		floats = append(floats, strconv.FormatFloat(v.(float64), 'f', 6, 64))
 	}
-	respWithHostname(w, fmt.Sprintf("%s", flts))
+
+	respWithHostname(w, fmt.Sprintf("%s", floats))
 }

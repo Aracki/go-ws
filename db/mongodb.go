@@ -50,12 +50,11 @@ func InsertNumber(num float32) error {
 	defer dbClient.Disconnect(ctx)
 
 	ctx, _ = context.WithTimeout(context.Background(), 3*time.Second)
-	res, err := dbClient.Database(dbNAME).Collection("numbers").InsertOne(ctx, bson.M{"name": "pi", "value": num})
+	_, err = dbClient.Database(dbNAME).Collection("numbers").InsertOne(ctx, bson.M{"name": "pi", "value": num})
 	if err != nil {
 		return err
 	}
 
-	fmt.Println("inserted: ", res.InsertedID)
 	return nil
 }
 
