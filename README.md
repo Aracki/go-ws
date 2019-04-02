@@ -17,3 +17,15 @@ Continuous Integration: every push to Master branch will trigger Travis to run a
 #### Run mongo locally
 
 `docker run --name mongo --rm -p 27017:27017 mongo:latest`
+
+#### Test memleak (used for testing k8s pod recreation)
+
+Hit the: `curl http://localhost:8080/memleak?megabytes=100&interval=1000`<br>
+Or with [HTTPie](https://httpie.org/): `http :8080/memleak\?megabytes=100\&interval=1000`<br>
+
+App will copy 100MB every 1000ms from `/dev/urandom` to buffer which will cause OOM.
+
+Default params: 
+* megabytes: 100MB
+* interval: 350ms
+
