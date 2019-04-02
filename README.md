@@ -8,8 +8,11 @@
 An ultra simple Go App ready to be deployed via Kubernetes.
 
 #### Build and run docker image
-Use `./build-local.sh` to run Docker container locally.<br>
-Use `./build.sh` to rebuild Docker image & push it to the public [Docker hub](https://hub.docker.com/r/aracki/).
+Install [dep tool](https://github.com/golang/dep#installation) and run `dep ensure`.<br>
+Use `./run-local.sh` to run Docker container locally.<br>
+Use `./push-public.sh` to rebuild Docker image & push it to the public [Docker hub](https://hub.docker.com/r/aracki/).
+
+Continuous Integration: every push to Master branch will trigger Travis to run all these steps.
 
 #### Run mongo locally
 
