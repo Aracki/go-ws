@@ -27,6 +27,5 @@ Or with [HTTPie](https://httpie.org/): `http :8080/memleak\?megabytes=100\&inter
 > App will copy 100MB every 1000ms from `/dev/urandom` to buffer which will cause OOM.
 
 Default params: 
-* megabytes: 100MB
-* interval: 350ms
-
+*  megabytes: 100MB
+*  interval: 350ms
