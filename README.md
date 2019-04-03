@@ -7,23 +7,24 @@
 
 An ultra simple Go App ready to be deployed via Kubernetes.
 
-#### Build and run docker image
+## Build/Run
 Install [dep tool](https://github.com/golang/dep#installation) and run `dep ensure`.<br>
 Use `./run-local.sh` to run Docker container locally.<br>
 Use `./push-public.sh` to rebuild Docker image & push it to the public [Docker hub](https://hub.docker.com/r/aracki/).
 
-Continuous Integration: every push to Master branch will trigger Travis to run all these steps.
+PS. Every push to Master branch will trigger Travis to run all required steps.
 
-#### Run mongo locally
+## Mongo 
 
-`docker run --name mongo --rm -p 27017:27017 mongo:latest`
+Run mongo locally: `docker run --name mongo --rm -p 27017:27017 mongo:latest`<br>
+Test mongo with API calls such as `/insert` & `/nums`.
 
-#### Test memleak (used for testing k8s pod recreation)
+## Test memleak (used for testing k8s pod recreation)
 
 Hit the: `curl http://localhost:8080/memleak?megabytes=100&interval=1000`<br>
 Or with [HTTPie](https://httpie.org/): `http :8080/memleak\?megabytes=100\&interval=1000`<br>
 
-App will copy 100MB every 1000ms from `/dev/urandom` to buffer which will cause OOM.
+> App will copy 100MB every 1000ms from `/dev/urandom` to buffer which will cause OOM.
 
 Default params: 
 * megabytes: 100MB
