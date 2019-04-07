@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/Aracki/go-ws.svg?branch=master)](https://travis-ci.org/Aracki/go-ws)
 [![](https://images.microbadger.com/badges/image/aracki/go-web-server.svg)](https://microbadger.com/images/aracki/go-web-server "Get your own image badge on microbadger.com")
 
-An ultra simple Go App ready to be deployed via Kubernetes.
+An ultra simple Go web server ready to be deployed via Kubernetes - [gobernetes](https://github.com/Aracki/gobernetes).
 
 ## Build/Run
 Install [dep tool](https://github.com/golang/dep#installation) and run `dep ensure`.<br>
@@ -16,6 +16,7 @@ PS. Every push to Master branch will trigger Travis to run all required steps.
 
 ## Mongo 
 
+The app will start even if mongo is not started.<br>
 Run mongo locally: `docker run --name mongo --rm -p 27017:27017 mongo:latest`<br>
 Test mongo with API calls such as `/insert` & `/nums`.
 
