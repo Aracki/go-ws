@@ -57,6 +57,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 
 func writeFile(w http.ResponseWriter, r *http.Request) {
 
+	// default filesPath: /files/cat
 	fp := r.URL.Query().Get("filePath")
 	if fp != "" {
 		filePath = fp
@@ -64,7 +65,8 @@ func writeFile(w http.ResponseWriter, r *http.Request) {
 
 	f, err := os.Create(filePath)
 	if err != nil {
-		fmt.Fprintf(w, err.Error())
+		respWithHostname(w, err.Error())
+		return
 	}
 
 	colour := ""
