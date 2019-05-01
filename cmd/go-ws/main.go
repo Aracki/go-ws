@@ -30,8 +30,17 @@ func respWithHostname(w http.ResponseWriter, msg string) {
 		runtime.GOOS, runtime.GOARCH, string(out), msg)
 }
 
+var banner = `
+   ____                         
+  / ___| ___      __      _____ 
+ | |  _ / _ \ ____\ \ /\ / / __|
+ | |_| | (_) |_____\ V  V /\__ \
+  \____|\___/       \_/\_/ |___/
+`
+
 func main() {
 
+	log.Println(banner)
 	log.Println("handlers started...")
 	http.HandleFunc("/", hello)
 	http.HandleFunc("/write", writeFile)
