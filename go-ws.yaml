@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-ws-deployment
+  namespace: devops
+  labels:
+    name: go-ws
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-ws
+  template:
+    metadata:
+      labels:
+        app: go-ws
+    spec:
+      containers:
+      - name: go-ws
+        image: aracki/go-web-server:latest
+        imagePullPolicy: Always
+        ports:                                      
+        - containerPort: 8080
+          name: http
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 2
+          periodSeconds: 3
+          failureThreshold: 3
+        resources:
+          limits:
+            memory: "50Mi"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-ws-svc
+  namespace: devops
+spec:
+  selector:
+    app: go-ws
+  ports:
+    - port: 8080
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: go-ws
+  namespace: devops
+spec:
+  rules:
+    - host: go-ws.internal.com
+      http:
+        paths:
+          - backend:
+              serviceName: go-ws-svc
+              servicePort: 8080
+            path: /
+  tls:
+    - hosts:
+        - go-ws.internal.com
