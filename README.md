@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/Aracki/go-ws.svg?branch=master)](https://travis-ci.org/Aracki/go-ws)
 [![](https://images.microbadger.com/badges/image/aracki/go-web-server.svg)](https://microbadger.com/images/aracki/go-web-server "Get your own image badge on microbadger.com")
 
-An ultra simple Go web server ready to be deployed via Kubernetes - [gobernetes](https://github.com/Aracki/gobernetes).
+An ultra simple Go web server ready to be deployed via [Kubernetes](go-ws.yaml).
 
 ## Build/Run
 Install [dep tool](https://github.com/golang/dep#installation) and run `dep ensure`.<br>
